@@ -1,5 +1,7 @@
 import pandas as pd
-file_path = "Mars_Base_Inventory_List (1).csv"
+
+# 전체 경로로 파일 경로 지정
+file_path = r"C:\Users\User\Desktop\Mars_Base_Inventory_List (1).csv"
 df = pd.read_csv(file_path)
 data_list = [df.columns.tolist()] + df.values.tolist()
 print(data_list)
@@ -13,4 +15,4 @@ flammable_list = [flammable_df.columns.tolist()] + flammable_df.values.tolist()
 print("인화성 0.7 이상 목록:")
 print(flammable_list)
 
-flammable_df.to_csv("Mars_Base_Inventory_danger.csv", index=False)
+flammable_df.to_csv(r"C:\Users\User\Desktop\Mars_Base_Inventory_danger.csv", index=False)
