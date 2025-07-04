@@ -1,0 +1,37 @@
+import json
+
+log_entries = []
+
+try:
+    with open('mission_computer_main.log', 'r', encoding='utf-8') as f:
+        for line in f:
+            line = line.strip()
+            if line:  # 빈 줄 무시
+                parts = line.split(',', 1)  # 콤마 기준으로 2개로 분리
+                if len(parts) == 2:
+                    date_time = parts[0].strip()
+                    log_content = parts[1].strip()
+                    log_entries.append([date_time, log_content])
+                else:
+                    log_entries.append([parts[0].strip(), ""])
+    # 시간의 역순(내림차순)으로 정렬
+    log_entries.sort(key=lambda x: x[0], reverse=True)
+    print("시간 역순 정렬 결과:")
+    for entry in log_entries:
+        print(entry)
+
+    # 리스트를 사전(Dict)으로 변환
+    log_dict = {date_time: log_content for date_time, log_content in log_entries}
+    print("\n사전(Dict) 객체로 변환 결과:")
+    for k, v in log_dict.items():
+        print(f"{k}: {v}")
+
+    # 사전 객체를 JSON 파일로 저장
+    with open('mission_computer_main.json', 'w', encoding='utf-8') as json_file:
+        json.dump(log_dict, json_file, ensure_ascii=False, indent=4)
+    print("\nmission_computer_main.json 파일로 저장 완료.")
+
+except FileNotFoundError:
+    print("mission_computer_main.log 파일을 찾을 수 없습니다.")
+except Exception as e:
+    print(f"파일을 읽는 중 오류가 발생했습니다: {e}")
