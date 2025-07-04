@@ -1,0 +1,10 @@
+print('Hello, Mars')
+
+try:
+    with open('mission_computer_main.log', 'r', encoding='utf-8') as f:
+        log_data = f.read()
+        print(log_data)
+except FileNotFoundError:
+    print("mission_computer_main.log 파일을 찾을 수 없습니다.")
+except Exception as e:
+    print(f"파일을 읽는 중 오류가 발생했습니다: {e}")
