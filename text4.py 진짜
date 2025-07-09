@@ -1,0 +1,24 @@
+import math
+
+def sphere_area_with_weight(diameter, material, thickness):
+    densities = {'glass': 2.4, 'aluminum': 2.7, 'carbon_steel': 7.85}
+    if material not in densities:
+        raise ValueError("지원하지 않는 재질입니다.")
+    r = diameter / 2
+    area_m2 = 3 * math.pi * r**2
+    area_cm2 = area_m2 * 10000
+    mass_kg = area_cm2 * thickness * densities[material] / 1000
+    w_earth = mass_kg * 9.80665
+    w_mars = mass_kg * 3.72076
+    return area_m2, mass_kg, w_earth, w_mars
+
+if __name__ == "__main__":
+    try:
+        d = float(input("돔 지름(m): "))
+        m = input("재질 (glass/aluminum/carbon_steel): ").strip().lower()
+        t = float(input("두께(cm): "))
+        area, mass, w_earth, w_mars = sphere_area_with_weight(d, m, t)
+        kor = {'glass':'유리', 'aluminum':'알루미늄', 'carbon_steel':'탄소강'}[m]
+        print(f"재질={kor}, 지름={d:.3f}m, 두께={t:.3f}cm, 면적={area:.3f}㎡, 무게={mass:.3f}kg")
+    except Exception as e:
+        print("오류:", e)
