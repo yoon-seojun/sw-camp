@@ -1,0 +1,31 @@
+import platform, psutil, json, time
+
+class MissionComputer:
+    def get_info(self):
+        info = {
+            "운영체계": platform.system(),
+            "버전": platform.version(),
+            "CPU": platform.processor(),
+            "코어 수": psutil.cpu_count(logical=False),
+            "메모리(GB)": round(psutil.virtual_memory().total / (1024**3), 2)
+        }
+        print(json.dumps(info, indent=4, ensure_ascii=False))
+        return info
+
+    def monitor_load(self, interval=1):
+        print("실시간 부하 출력 (Ctrl+C 종료)")
+        try:
+            while True:
+                load = {
+                    "CPU 사용률(%)": psutil.cpu_percent(None),
+                    "메모리 사용률(%)": psutil.virtual_memory().percent
+                }
+                print(json.dumps(load, indent=4, ensure_ascii=False))
+                time.sleep(interval)
+        except KeyboardInterrupt:
+            print("모니터링 종료")
+
+if __name__ == "__main__":
+    mc = MissionComputer()
+    mc.get_info()
+    mc.monitor_load()
