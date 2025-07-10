@@ -1,0 +1,36 @@
+import multiprocessing
+import time
+
+class MissionComputer:
+    def get_mission_computer_info(self):
+        return "Mission Computer Info 출력 내용"
+    def get_mission_computer_load(self):
+        return "Mission Computer Load 출력 내용"
+    def get_sensor_data(self):
+        return "Sensor Data 출력 내용"
+
+def run_method(method_name, name):
+    mc = MissionComputer()
+    method = getattr(mc, method_name)
+    while True:
+        print(f"[{name}] {method()}")
+        time.sleep(20)
+
+if __name__ == "__main__":
+    tasks = [
+        ("get_mission_computer_info", "runComputer1"),
+        ("get_mission_computer_load", "runComputer2"),
+        ("get_sensor_data", "runComputer3"),
+    ]
+
+    procs = [multiprocessing.Process(target=run_method, args=t) for t in tasks]
+
+    for p in procs:
+        p.start()
+
+    try:
+        for p in procs:
+            p.join()
+    except KeyboardInterrupt:
+        for p in procs:
+            p.terminate()
