@@ -1,0 +1,25 @@
+import random
+import json
+import time
+
+class DummySensor:
+    def read(self):
+        return {
+            "mars_base_internal_temperature": random.uniform(18, 30),
+            "mars_base_external_temperature": random.uniform(0, 21),
+            "mars_base_internal_humidity": random.uniform(50, 60),
+            "mars_base_external_illuminance": random.uniform(500, 715),
+            "mars_base_internal_co2": random.uniform(0.02, 0.1),
+            "mars_base_internal_oxygen": random.uniform(4, 7)
+        }
+
+class MissionComputer:
+    def get_sensor_data(self, sensor):
+        while True:
+            print(json.dumps(sensor.read(), indent=4))
+            time.sleep(5)
+
+if __name__ == "__main__":
+    RunComputer = MissionComputer()
+    ds = DummySensor()
+    RunComputer.get_sensor_data(ds)
